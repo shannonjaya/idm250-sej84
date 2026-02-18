@@ -266,7 +266,8 @@ th {
 }
 
 .highlight,
-.highlight-green {
+.highlight-green,
+.highlight-gray {
   text-transform: capitalize;
   background: #060d1c;
   color: #84caff;
@@ -283,7 +284,13 @@ th {
   border-color: #7fffd4;
 }
 
-td:has(.highlight, .highlight-green) {
+.highlight-gray {
+  background: #232323;
+  color: #ffef5e;
+  border-color: #ffef5e;
+}
+
+td:has(.highlight, .highlight-green, .highlight-gray) {
   text-align: center;
 }
 
