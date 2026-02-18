@@ -28,7 +28,7 @@ require_once 'lib/protect.php';
                     include 'sku/delete-sku.php';
                     break;
                 case 'sku-demo':
-                    include 'sku/sku-demo.php';
+                    include 'sku-demo.php';
                     break;
                 case 'inventory':
                     include 'inventory/index.php';

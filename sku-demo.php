@@ -1,8 +1,19 @@
-    sk<?php
-        require_once '../lib/db-connect.php';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKU API Demo</title>
+    <link rel="icon" href="../assets/logo-dark.svg" type="image/svg+xml">
+</head>
+<body>
+    <h1>SKU API Demo</h1>
+
+<?php
+        require_once 'lib/db-connect.php';
 
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        $api_url = "http://localhost:8888/idm250-sir/api/sku.php?id=$id"; // call this api route
+        $api_url = "https://digmstudents.westphal.drexel.edu/~sej84/idm250-sir/api/sku.php?id=$id"; // call this api route
         $api_key = $env['X_API_KEY'];
 
         $options = [
@@ -32,27 +43,3 @@
                 echo "<p>Error: " . htmlspecialchars($data['error'] ?? 'Unknown error') . "</p>";
             }
         }
-    ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKU API Demo</title>
-    <link rel="icon" href="assets/logo-dark.svg" type="image/svg+xml">
-</head>
-<body>
-    <h1>SKU API Demo</h1>
-
-    <?php if ($error): ?>
-        <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
-    <?php elseif ($sku): ?>
-        <ul>
-            <li><?php echo htmlspecialchars($sku['description']); ?> (<?php echo htmlspecialchars($sku['sku']); ?>)</li>
-        </ul>
-    <?php else: ?>
-        <p>No SKU found. Try adding ?id=127 to the URL.</p>
-    <?php endif; ?>
-</body>
-</html>
