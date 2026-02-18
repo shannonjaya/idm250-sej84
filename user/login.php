@@ -1,5 +1,5 @@
 <?php
-require_once '../lib/user-auth.php';
+require_once '../lib/auth.php';
 
 $error = null;
 
@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $password = $_POST['password'] ?? '';
 
   if (login_user($email, $password)) {
-    header('Location: ../index.php?view=sku');
+    header('Location: index.php?view=sku');
     exit;
   } else {
     $error = 'Invalid email or password';
