@@ -43,3 +43,6 @@
                 echo "<p>Error: " . htmlspecialchars($data['error'] ?? 'Unknown error') . "</p>";
             }
         }
+    ?>
+</body>
+</html>
