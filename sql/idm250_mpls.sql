@@ -33,7 +33,7 @@ CREATE TABLE `idm250_mpls` (
   `trailer_number` int NOT NULL,
   `expected_arrival` date NOT NULL,
   `status` varchar(600) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
