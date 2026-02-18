@@ -1,5 +1,5 @@
 <?php
-require_once './lib/mpl.php';
+require_once './lib/functions.php';
 $mpls = get_all_mpls($connection);
 ?>
 
