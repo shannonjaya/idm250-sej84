@@ -1,5 +1,5 @@
 <?php
-require_once '../lib/user-auth.php';
+require_once '../lib/auth.php';
 
 $error = null;
 

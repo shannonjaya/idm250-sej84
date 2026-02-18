@@ -1,5 +1,5 @@
 <?php
-require_once './lib/sku.php';
+require_once './lib/functions.php';
 $skus = get_all_skus($connection);
 ?>
 

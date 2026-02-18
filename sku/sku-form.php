@@ -1,4 +1,4 @@
-<?php require_once './lib/sku.php'; // Create or Edit SKU
+<?php require_once __DIR__ . '/../lib/functions.php'; // Create or Edit SKU
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $sku = $id ? get_sku($connection, $id) : [];
@@ -19,7 +19,7 @@ $sku = $id ? get_sku($connection, $id) : [];
         } else {
             $id = create_sku($connection, $ficha, $sku, $description, $uom, $pieces, $length, $width, $height, $weight);
         }
-        header("Location: ../idm250-sir/index.php?view=sku");
+        header("Location: ../index.php?view=sku");
         exit;
     }
 ?>

@@ -1,4 +1,6 @@
-<?php
+<?php require_once __DIR__ . '/db-connect.php';
+
+// ------FUNCTIONS FOR SKU MANAGEMENT-----//
 
 // GET ALL SKUS
 function get_all_skus($connection) {

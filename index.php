@@ -1,4 +1,5 @@
 <?php
+
 require_once 'lib/protect.php';
 ?>
 
@@ -29,20 +30,20 @@ require_once 'lib/protect.php';
                 case 'inventory':
                     include 'inventory/index.php';
                     break;
-                case 'inventory-warehouse':
+                case 'warehouse':
                     include 'inventory/warehouse.php';
                     break;
-                case 'mpl':
-                    include 'mpl/index.php';
+                case 'mpls':
+                    include 'mpls/index.php';
                     break;
-                case 'create-mpl':
-                    include 'mpl/create-mpl.php';
-                    break; 
+                case 'mpl-form':
+                    include 'mpls/mpl-form.php';
+                    break;
                 case 'orders':
                     include 'orders/index.php';
                     break;
-                case 'create-order':
-                    include 'orders/create-order.php';
+                case 'order-form':
+                    include 'orders/order-form.php';
                     break;
                 default:
                     include 'sku/index.php';
