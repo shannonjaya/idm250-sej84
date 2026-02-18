@@ -1,6 +1,6 @@
 <?php
-require_once './lib/inventory.php';
-$inventory = get_all_inventory($connection);
+require_once './lib/functions.php';
+$inventory = get_all_inventory_units($connection);
 ?>
 
 <header class="main-header">
@@ -12,33 +12,29 @@ $inventory = get_all_inventory($connection);
     <table>
         <thead>
             <tr>
-                <th></th>
+                <th>Select</th>
                 <th>Unit ID</th>
                 <th>SKU</th>
                 <th>Description</th>
                 <th>UOM</th>
-                <th>Date Received</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach($inventory as $unit): ?>
                 <tr>
                     <td>
-                        <input type="checkbox" name="unit_ids[]" value="<?=$unit['id']; ?>">
+                        <input type="checkbox" name="unit_ids[]" value="<?=$unit['unit_id']; ?>">
                     </td>
                     <td><?=$unit['unit_id']; ?></td>
                     <td><?=$unit['sku']; ?></td>
                     <td><?=$unit['description']; ?></td>
                     <td>
                         <p class="highlight<?php 
-                            if ($unit['uom'] === 'PALLET') { echo "-green"; } 
-                            elseif ($unit['uom'] === 'BUNDLE') { echo "-blue"; }
-                            elseif ($unit['uom'] === 'PC') { echo "-gray"; }
+                            if ($unit['uom_primary'] === 'PALLET') { echo "-green"; }
                         ?>">
-                            <?= $unit['uom'] === 'PC' ? 'PIECE' : $unit['uom']; ?>
+                            <?=$unit['uom_primary']; ?>
                         </p>
                     </td>
-                    <td><?=$unit['date_received']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

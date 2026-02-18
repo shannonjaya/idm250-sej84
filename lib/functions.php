@@ -144,25 +144,3 @@ function create_mpl($connection, $data, $unit_ids) {
     }
 
 }
-
-// EDIT MPL (ADD/REMOVE INVENTORY UNITS)
-function edit_mpl($connection, $id, $unit_id) {
-    $check = $connection->prepare("SELECT id FROM idm250_mpls WHERE id = ? AND status = 'draft'");
-    $check->bind_param('i', $id);
-    $check->execute();
-    
-    $stmt = $connection->prepare("DELETE FROM idm250_mpl_items WHERE mpl_id = ?");
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-
-    $stmt = $connection->prepare("INSERT INTO idm250_mpl_items (mpl_id, unit_id) VALUES (?, ?)");
-    $stmt->bind_param('is', $id, $unit_id);
-    $stmt->execute();
-}
-
-// UPDATE MPL STATUS
-function update_mpl_status($connection, $id, $status) {
-    $stmt = $connection->prepare("UPDATE idm250_mpls SET status = ? WHERE id = ?"); 
-    $stmt->bind_param('si', $status, $id);
-    $stmt->execute();
-}

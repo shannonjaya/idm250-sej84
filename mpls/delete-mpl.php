@@ -1,5 +1,5 @@
 <?php
-require_once './lib/mpl.php';
+require_once './lib/functions.php';
 
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {

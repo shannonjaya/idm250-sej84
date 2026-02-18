@@ -1,5 +1,5 @@
 <?php
-require_once './lib/inventory.php';
+require_once './lib/functions.php';
 
 $selected_units = $_POST['unit_ids'] ?? [];
 $units = [];
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reference_number'])) 
     if (!empty($reference_number) && !empty($trailer_number) && !empty($expected_arrival_date) && !empty($selected_units)) {
 
         // INSERT MPL RECORD
-        $stmt = $connection->prepare("INSERT INTO idm250_mpl (reference_number, trailer_number, expected_arrival_date, status) VALUES (?, ?, ?, 'draft')");
+        $stmt = $connection->prepare("INSERT INTO idm250_mpls (reference_number, trailer_number, expected_arrival_date, status) VALUES (?, ?, ?, 'draft')");
         $stmt->bind_param("sss", $reference_number, $trailer_number, $expected_arrival_date);
 
         if ($stmt->execute()) {
@@ -86,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reference_number'])) 
                     <th>SKU</th>
                     <th>Description</th>
                     <th>UOM</th>
-                    <th>Date Received</th>
                 </tr>
             </thead>
             <tbody>
@@ -97,14 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reference_number'])) 
                         <td><?=$unit['description']; ?></td>
                         <td>
                             <p class="highlight<?php 
-                                if ($unit['uom'] === 'PALLET') { echo "-green"; } 
-                                elseif ($unit['uom'] === 'BUNDLE') { echo "-blue"; }
-                                elseif ($unit['uom'] === 'PC') { echo "-gray"; }
+                                if ($unit['uom_primary'] === 'PALLET') { echo "-green"; }
                             ?>">
-                                <?= $unit['uom'] === 'PC' ? 'PIECE' : $unit['uom']; ?>
+                                <?= $unit['uom_primary']?>
                             </p>
                         </td>
-                        <td><?=$unit['date_received']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

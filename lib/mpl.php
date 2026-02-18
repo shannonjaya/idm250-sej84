@@ -3,7 +3,7 @@
 // GET ALL MPLS
 function get_all_mpls($connection) {
     $stmt = $connection->prepare("
-        SELECT 
+        SELECT
             m.*,
             COUNT(mi.id) AS total_units
         FROM idm250_mpls m
@@ -20,7 +20,7 @@ function get_all_mpls($connection) {
 
 // GET MPL BY ID
 function get_mpl($connection, $id) {
-    $stmt = $connection->prepare("SELECT * FROM idm250_mpl WHERE id = ? LIMIT 1");
+    $stmt = $connection->prepare("SELECT * FROM idm250_mpls WHERE id = ? LIMIT 1");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -33,7 +33,7 @@ function get_mpl($connection, $id) {
 function delete_mpl($connection, $id) {
 
     // confirm it exists + is draft
-    $stmt = $connection->prepare("SELECT status FROM idm250_mpl WHERE id = ? LIMIT 1");
+    $stmt = $connection->prepare("SELECT status FROM idm250_mpls WHERE id = ? LIMIT 1");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -49,7 +49,7 @@ function delete_mpl($connection, $id) {
     $stmt->execute();
 
     // delete mpl record
-    $stmt = $connection->prepare("DELETE FROM idm250_mpl WHERE id = ? LIMIT 1");
+    $stmt = $connection->prepare("DELETE FROM idm250_mpls WHERE id = ? LIMIT 1");
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
