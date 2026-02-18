@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +10,10 @@
     <h1>SKU API Demo</h1>
 
     <?php
-        require_once '../lib/db-connect.php';
+        require_once './lib/db-connect.php';
 
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        $api_url = "http://localhost:8888/idm250-sir/api/test.php?id=$id"; // call this api route
+        $api_url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/sku.php?id=$id"; // call this api route
         $api_key = $env['X_API_KEY'];
 
         $options = [
@@ -38,7 +36,7 @@
                     echo "<p>No sku found.</p>";
                 } else {
                     echo "<ul>";
-                    echo "<li>" . htmlspecialchars($sku['description']) . htmlspecialchars($sku['sku']) . "</li>";
+                    echo "<li>" . htmlspecialchars($sku['description']) . " (" . htmlspecialchars($sku['sku']) . ")</li>";
                     echo "</ul>";
                 }
             } else {

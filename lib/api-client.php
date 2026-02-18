@@ -3,9 +3,9 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');  // allows everyone access to this route
 
-require_once "../lib/db-connect.php";
-require_once "../lib/auth.php";
-require_once "../lib/sku.php";
+require_once __DIR__ . "/db-connect.php";
+require_once __DIR__ . "/auth.php";
+require_once __DIR__ . "/functions.php";
 
 check_api_key($env); // checks api key
 
