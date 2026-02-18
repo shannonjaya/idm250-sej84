@@ -38,7 +38,10 @@ require_once 'lib/protect.php';
                 case 'create-mpl':
                     include 'mpl/create-mpl.php';
                     break; 
-                case 'orders':
+                case 'delete-mpl':
+                    include 'mpl/delete-mpl.php';
+                    break;
+                    case 'orders':
                     include 'orders/index.php';
                     break;
                 case 'create-order':
