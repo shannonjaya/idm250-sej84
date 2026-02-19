@@ -154,8 +154,13 @@ ul.sidebar-menu {
   border-radius: 4px;
 }
 
+.sidebar-item.logout {
+  color: var(--foreground-color);
+}
+
 .sidebar-link,
 .sidebar-link-active {
+  border-radius: 4px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -163,6 +168,12 @@ ul.sidebar-menu {
   cursor: pointer;
   padding: calc(var(--rhythm) * 0.5);
   fill: currentColor;
+  transition: all 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background-color: var(--dark-gray);
+  color: var(--foreground-color);
 }
 
 .sidebar-item:has(.sidebar-link-active) {
@@ -200,15 +211,11 @@ ul.sidebar-menu {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  /* background-color: var(--primary-color);
-  color: var(--foreground-color); */
   padding: calc(var(--rhythm) * 0.5) var(--rhythm);
   font-family: var(--font-mono);
   text-transform: uppercase;
   cursor: pointer;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+  transition: all 0.3s ease;
   position: relative;
   top: 0;
   right: 0;
@@ -217,13 +224,14 @@ ul.sidebar-menu {
 .primary-btn:hover {
   background-color: var(--foreground-color);
   color: var(--background-color);
+  transform: scale(1.02);
 }
 
 .icon-btn {
   color: var(--foreground-color);
   cursor: pointer;
   padding: calc(var(--rhythm) * 0.5);
-  transition: color 0.3s;
+  transition: all 0.3s ease;
   position: relative;
 }
 
