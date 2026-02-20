@@ -12,7 +12,7 @@
 <?php
         require_once 'lib/db-connect.php';
 
-        $api_url = "https://digmstudents.westphal.drexel.edu/~sej84/idm250-sir/api/sku.php"; // call this api route
+        $api_url = "https://digmstudents.westphal.drexel.edu/~sej84/idm250/api/sku.php"; // call this api route
         $api_key = $env['X_API_KEY'];
 
         $options = [
