@@ -3,8 +3,10 @@
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $sku = $id ? get_sku($connection, $id) : [];
 
+$sku_code = $sku['sku'] ?? "";
+
     if ($_SERVER['REQUEST_METHOD']=== 'POST'){
-        $sku = $_POST['sku'] ?? "";
+        $sku_code = $_POST['sku'] ?? "";
         $description = $_POST['description'] ?? "";
         $uom_primary = $_POST['uom_primary'] ?? "";
         $pieces = $_POST['pieces'] ?? 0;
@@ -12,15 +14,25 @@ $sku = $id ? get_sku($connection, $id) : [];
         $width = $_POST['width'] ?? 0.0;
         $height = $_POST['height'] ?? 0.0;
         $weight = $_POST['weight'] ?? 0.0;
-    
-        if ($id) {
-            edit_sku($connection, $id, $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight);
+
+        try {
+             if ($id) {
+            edit_sku($connection, $id, $sku_code, $description, $uom_primary, $pieces, $length, $width, $height, $weight);
         } else {
-            $id = create_sku($connection, $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight);
+            $id = create_sku($connection, $sku_code, $description, $uom_primary, $pieces, $length, $width, $height, $weight);
         }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() === 1062) {
+                $sku_error = "That SKU already exists.";
+            } else {
+                throw $e;
+            }
+        }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($sku_error)) {
         header("Location: index.php?view=sku");
         exit;
     }
+}
 ?>
 
 <header class="main-header">
@@ -34,7 +46,10 @@ $sku = $id ? get_sku($connection, $id) : [];
         <legend>SKU Details</legend>
         <div class="form-item">
             <label for="sku">SKU</label>
-            <input type="text" min="0" id="sku" name="sku"  value="<?= ($sku['sku']) ?? ''; ?>" placeholder="0000000-0000" required>
+            <input type="text" id="sku" name="sku"  value="<?= ($sku_code) ?? ''; ?>" placeholder="0000000-0000" required>
+            <?php if (isset($sku_error)): ?>
+                <p class="error"><?= htmlspecialchars($sku_error) ?></p>
+            <?php endif; ?>
         </div>
     </fieldset>
             

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($reference_number) && !empty($trailer_number) && !empty($expected_arrival)) {
         if (empty($selected_units)) {
-            $error_message = "Please select at least one inventory unit.";
+            $unit_error = "Please select at least one inventory unit.";
         } else {
             $data = [
                 'reference_number' => $reference_number,
@@ -28,16 +28,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'status' => 'draft'
             ];
             
+            try {
             if ($mpl_id) {
                 edit_mpl($connection, $mpl_id, $data, $selected_units);
-            } else {
-                create_mpl($connection, $data, $selected_units);
+                } else {
+                    create_mpl($connection, $data, $selected_units);
+                }
+                } catch (mysqli_sql_exception $e) { // ref must be unique
+                    if ($e->getCode() === 1062) {
+                        $ref_error = "That reference number already exists.";
+                        } else {
+                            throw $e;
+                        }
+                }
             }
-            header("Location: index.php?view=mpls");
-            exit;
+            if (!isset($ref_error) && !isset($unit_error)) {
+                header("Location: index.php?view=mpls");
+                exit;
+            }
         }
     }
-}
 ?>
 
 <header class="main-header">
@@ -51,12 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="form-item">
             <label for="reference_number">Reference Number</label>
-            <input type="text" id="reference_number" name="reference_number" placeholder="000000" value="<?= ($mpl['reference_number']) ?? ''; ?>" required>
+            <input type="number" id="reference_number" name="reference_number" placeholder="000000" value="<?= ($mpl['reference_number']) ?? ''; ?>" required>
+            <?php if (isset($ref_error)): ?>
+                <p class="error"><?= htmlspecialchars($ref_error) ?></p>
+            <?php endif; ?>
         </div>
 
         <div class="form-item">
             <label for="trailer_number">Trailer Number</label>
-            <input type="text" id="trailer_number" name="trailer_number" placeholder="000000" value="<?= ($mpl['trailer_number']) ?? ''; ?>" required>
+            <input type="number" id="trailer_number" name="trailer_number" placeholder="000000" value="<?= ($mpl['trailer_number']) ?? ''; ?>" required>
         </div>
 
         <div class="form-item">
@@ -67,8 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <fieldset class="row">
         <div class="form-item">
-            <h2 class="label">Available Inventory Units <?php if (isset($error_message)): ?>
-                <p class="error"><?= htmlspecialchars($error_message) ?></p>
+            <h2 class="label">Available Inventory Units <?php if (isset($unit_error)): ?>
+                <p class="error"><?= htmlspecialchars($unit_error) ?></p>
             <?php endif; ?></h2>
                 <table class="select-inventory-unit-table">
                     <thead>
@@ -84,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <tbody>
                         <?php foreach($all_inventory as $unit): ?>
                             <tr>
-                                <td><input type="checkbox" class="unit-checkbox" name="unit_ids[]" value="<?=$unit['unit_id']; ?>" <?php if (in_array($unit['unit_id'], $selected_units)) echo 'checked'; ?>></td>
+                                <td><input type="checkbox" class="unit-checkbox" name="unit_ids[]" value="<?=$unit['unit_id']; ?>" <?php if (in_array($unit['unit_id'], $selected_units)) { echo 'checked'; } ?>></td>
                                 <td><?=$unit['unit_id']; ?></td>
                                 <td><?=$unit['sku']; ?></td>
                                 <td><?=$unit['description']; ?></td>

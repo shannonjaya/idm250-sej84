@@ -26,7 +26,7 @@ function get_sku($connection, $id) {
 // CREATE SKU
 function create_sku ($connection, $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight) {
     $stmt = $connection->prepare("INSERT INTO idm250_sku (sku, description, uom_primary, pieces, length_inches, width_inches, height_inches, weight_lbs) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssiddd", $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight);
+    $stmt->bind_param("ssssiddd", $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight);
     if ($stmt->execute()) {
         return $connection->insert_id;
     } else {
@@ -37,7 +37,7 @@ function create_sku ($connection, $sku, $description, $uom_primary, $pieces, $le
 // EDIT SKU
 function edit_sku ($connection, $id, $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight) {
     $stmt = $connection->prepare("UPDATE idm250_sku SET sku = ?, description = ?, uom_primary = ?, pieces = ?, length_inches = ?, width_inches = ?, height_inches = ?, weight_lbs = ? WHERE id = ? LIMIT 1");
-    $stmt->bind_param("isssidddi", $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight, $id);
+    $stmt->bind_param("ssssidddi", $sku, $description, $uom_primary, $pieces, $length, $width, $height, $weight, $id);
     if ($stmt->execute()) {
         return true;
     }
@@ -190,15 +190,49 @@ function edit_mpl($connection, $mpl_id, $data, $unit_ids) {
     return true;
 }
 
-// GET MPL INVENTORY UNITS
+// GET MPL UNITS
 function get_mpl_units($connection, $mpl_id) {
     $stmt = $connection->prepare("SELECT unit_id FROM idm250_mpl_items WHERE mpl_id = ?");
     $stmt->bind_param("i", $mpl_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    $unit_ids = [];
-    while ($row = $result->fetch_assoc()) {
-        $unit_ids[] = $row['unit_id'];
+    $units = [];
+    while ($unit = $result->fetch_assoc()) {
+        $units[] = $unit['unit_id'];
     }
-    return $unit_ids;
+    return $units;
+}
+
+// GET MPL DATA FOR API (HEADER + ITEMS)
+function get_mpl_data($connection, $mpl_id) {
+    $stmt = $connection->prepare(
+        "SELECT m.*, mi.*, i.*, s.*
+        FROM idm250_mpls m
+        JOIN idm250_mpl_items mi ON m.mpl_id = mi.mpl_id
+        JOIN idm250_inventory i ON mi.unit_id = i.unit_id
+        JOIN idm250_sku s ON i.sku_id = s.id
+        WHERE m.mpl_id = ?"
+    );
+    $stmt->bind_param("i", $mpl_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+// UPDATE MPL STATUS
+function update_mpl_status($connection, $mpl_id, $status) {
+    $stmt = $connection->prepare("UPDATE idm250_mpls SET status = ? WHERE mpl_id = ? LIMIT 1");
+    $stmt->bind_param("si", $status, $mpl_id);
+    return $stmt->execute();
+}
+
+// ------FUNCTIONS FOR ORDER MANAGEMENT-----//
+function get_all_orders($connection) {
+    $stmt = $connection->prepare("SELECT * FROM idm250_orders");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $orders = $result->fetch_all(MYSQLI_ASSOC);
+
+    return $orders;
 }
