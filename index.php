@@ -54,6 +54,12 @@ require_once 'lib/protect.php';
                 case 'order-form':
                     include 'orders/order-form.php';
                     break;
+                case 'delete-order':
+                    include 'orders/delete-order.php';
+                    break;
+                case 'send-order':
+                    include 'orders/send-order.php';
+                    break;
                 default:
                     include 'sku/index.php';
             }

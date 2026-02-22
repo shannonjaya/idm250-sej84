@@ -1,4 +1,4 @@
-<?php
+<?php // TEMPORARY TEST FILE
 
 ob_start();
 
@@ -48,7 +48,7 @@ if ($method === 'POST') {
         'success' => true,
         'message' => 'MPL received',
         'reference' => $reference_number,
-        'units_count' => count($items)
+        'items' => $items
     ]);
 } else {
     http_response_code(405);
