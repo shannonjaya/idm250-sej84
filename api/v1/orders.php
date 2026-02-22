@@ -61,15 +61,15 @@ if ($method === 'POST') {
 
     // "The CMS API updates its order status to 'confirmed', sets the shipped date, and deletes the units from CMS inventory"
 
-    if ($action === 'ship') { 
+    if ($action === 'ship') {
         update_order_status($connection, $order_number, 'confirmed');
 
         update_order_shipped_at($connection, $order_number, $shipped_at);
 
-        $order_items = get_order_items($connection, $order['order_id']);
+        $unit_ids = get_order_units($connection, $order['order_id']);
 
-        foreach ($order_items as $item) {
-            delete_inventory_unit($connection, $item['unit_id']);
+        foreach ($unit_ids as $unit_id) {
+            delete_inventory_unit($connection, $unit_id);
         }
     }
     echo json_encode([
@@ -77,7 +77,7 @@ if ($method === 'POST') {
         'action' => $action,
         'order_number' => $order_number,
         'shipped_at' => $shipped_at,
-        'units_deleted' => count($order_items)
+        'units_deleted' => count($unit_ids)
     ]);
 } else {
     http_response_code(405);
