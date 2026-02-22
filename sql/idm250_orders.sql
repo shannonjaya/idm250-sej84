@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Feb 21, 2026 at 11:27 PM
+-- Generation Time: Feb 22, 2026 at 04:32 AM
 -- Server version: 8.0.40
 -- PHP Version: 8.3.14
 
@@ -34,7 +34,9 @@ CREATE TABLE `idm250_orders` (
   `ship_to_street` varchar(100) NOT NULL,
   `ship_to_city` varchar(100) NOT NULL,
   `ship_to_state` varchar(100) NOT NULL,
-  `ship_to_zip` int NOT NULL
+  `ship_to_zip` int NOT NULL,
+  `shipped_at` date DEFAULT NULL,
+  `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -56,7 +58,7 @@ ALTER TABLE `idm250_orders`
 -- AUTO_INCREMENT for table `idm250_orders`
 --
 ALTER TABLE `idm250_orders`
-  MODIFY `order_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
