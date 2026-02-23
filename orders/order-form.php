@@ -5,6 +5,10 @@ $order = $order_id ? get_order($connection, $order_id) : [];
 
 $all_inventory = get_all_inventory_units($connection);
 
+// $all_inventory = array_filter($all_inventory, function($unit) {
+//     return $unit['location'] === 'warehouse';
+// }); // only show warehouse units, commented out temporarily for testing until wms api ready
+
 if ($_POST) {
     $selected_units = $_POST['unit_ids'] ?? [];
 } else {
