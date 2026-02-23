@@ -47,8 +47,7 @@ if ($method === 'POST') {
     echo json_encode([
         'success' => true,
         'message' => 'Order received',
-        'order_number' => $order_number,
-        'items' => $items
+        'data' => $data
     ]);
 } else {
     http_response_code(405);
