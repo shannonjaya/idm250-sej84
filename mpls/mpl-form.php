@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </p></td>
                             </tr>
                         <?php endforeach; ?>
-                        <?php if (empty($inventory)): ?>
+                        <?php if (empty($all_inventory)): ?>
                             <tr>
                                 <td colspan="5" class="empty-table" style="padding: 2rem;">
                                     <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
