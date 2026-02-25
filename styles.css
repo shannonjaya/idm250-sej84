@@ -447,6 +447,7 @@ option {
   flex-direction: column;
   gap: calc(var(--rhythm) * 0.5);
   width: 100%;
+  padding-bottom: 40px;
 }
 
 fieldset {
@@ -465,4 +466,11 @@ legend {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/*LOGIN*/
+.login-field {
+  max-width: 500px;
+  margin: 0 auto;
+  padding-top: 60px;
 }

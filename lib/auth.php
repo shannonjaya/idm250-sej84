@@ -24,17 +24,28 @@ function check_api_key($env) {
 session_start();
 
 $USERS = [
-  [
-    'email' => 'admin@camfg.com',
-    'password' => 'admin123'
-  ]
+    [
+        'email' => 'ingrid@sir.com',
+        'password' => '$2y$10$ykUfY/1kienmY3m.STG18OpHcBmKrT6e64mmhLg.zJnWk.7cYz.r.'
+    ],
+    [
+        'email' => 'riley@sir.com',
+        'password' => '$2y$10$8PwmuSfdboZoNhbV3z6vleZekdWcfUr4UScZeZrpnyLBpPwvuyyuq'
+    ],
+    [
+        'email' => 'shannon@sir.com',
+        'password' => '$2y$10$bBRUDQVLWrDZCj.Zj.I.0eIe6JSN2ODjzbYahrTh7Kum.eM1C07Iy'
+    ]
 ];
 
 function login_user($email, $password) {
   global $USERS;
 
   foreach ($USERS as $user) {
-    if ($user['email'] === $email && $user['password'] === $password) {
+    if (
+      $user['email'] === $email &&
+      password_verify($password, $user['password'])
+    ) {
       $_SESSION['user'] = [
         'email' => $email
       ];
