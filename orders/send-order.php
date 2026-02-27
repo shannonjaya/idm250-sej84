@@ -1,6 +1,6 @@
 <?php
-require_once 'lib/api-client.php';
-require_once 'lib/log.php';
+require_once __DIR__ . '/../lib/api-client.php';
+require_once __DIR__ . '/../lib/log.php';
 
 $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
