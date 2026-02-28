@@ -42,6 +42,7 @@ function send_mpl($connection, $mpl_id) {
         'reference_number' => $header['reference_number'],
         'trailer_number' => $header['trailer_number'],
         'expected_arrival' => $header['expected_arrival'],
+        'quantity' => count($mpl),
         'items' => []
     ];
 
