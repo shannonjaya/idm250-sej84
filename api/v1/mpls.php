@@ -14,9 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-require_once "../lib/db-connect.php";
-require_once "../lib/auth.php";
-require_once "../lib/functions.php";
+require_once "../../lib/db-connect.php";
+require_once "../../lib/auth.php";
+require_once "../../lib/functions.php";
+require_once "../../lib/log.php";
 
 ob_end_clean();
 
@@ -32,9 +33,9 @@ if ($method === 'POST') {
     $action = $data['action'] ?? '';
     $reference_number = $data['reference_number'] ?? '';
 
-    if (empty($action)) {
+    if (empty($action) || $action !== 'confirm') {
         http_response_code(400);
-        echo json_encode(['error' => 'Missing action']);
+        echo json_encode(['error' => 'Missing or invalid action']);
         exit;
     }
 

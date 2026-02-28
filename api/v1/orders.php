@@ -14,9 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-require_once "../lib/db-connect.php";
-require_once "../lib/auth.php";
-require_once "../lib/functions.php";
+require_once "../../lib/db-connect.php";
+require_once "../../lib/auth.php";
+require_once "../../lib/functions.php";
+require_once "../../lib/log.php";
 
 ob_end_clean();
 
@@ -33,9 +34,9 @@ if ($method === 'POST') {
     $order_number = $data['order_number'] ?? '';
     $shipped_at = $data['shipped_at'] ?? '';
 
-    if (empty($action)) {
+    if (empty($action) || $action !== 'ship') {
         http_response_code(400);
-        echo json_encode(['error' => 'Missing action']);
+        echo json_encode(['error' => 'Missing or invalid action']);
         exit;
     }
 
