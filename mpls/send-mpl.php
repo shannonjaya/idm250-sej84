@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $mpl_id) {
         update_mpl_status($connection, $mpl_id, 'sent');
         $_SESSION['toast'] = ['message' => "MPL sent successfully", 'type' => 'success'];
     } else {
-        $error_msg = $result['error'] ?? 'Unknown error';
+        $error_msg = $result['details'] ?? $result['error'] ?? 'Unknown error';
         log_event("MPL {$mpl_id} send failed: " . json_encode($result));
         $_SESSION['toast'] = ['message' => $error_msg, 'type' => 'error'];
     }
