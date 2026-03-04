@@ -63,7 +63,7 @@ if ($method === 'POST') {
     // "The CMS API updates its order status to 'confirmed', sets the shipped date, and deletes the units from CMS inventory"
 
     if ($action === 'ship') {
-        update_order_status($connection, $order_number, 'confirmed');
+        update_order_status($connection, $order['order_id'], 'confirmed');
 
         update_order_shipped_at($connection, $order_number, $shipped_at);
 

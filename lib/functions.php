@@ -383,9 +383,9 @@ function get_order_by_number($connection, $order_number) {
 }
 
 // UPDATE ORDER STATUS
-function update_order_status($connection, $order_number, $status) {
-    $stmt = $connection->prepare("UPDATE idm250_orders SET status = ? WHERE order_number = ? LIMIT 1");
-    $stmt->bind_param("ss", $status, $order_number);
+function update_order_status($connection, $order_id, $status) {
+    $stmt = $connection->prepare("UPDATE idm250_orders SET status = ? WHERE order_id = ? LIMIT 1");
+    $stmt->bind_param("si", $status, $order_id);
     return $stmt->execute();
 }
 
